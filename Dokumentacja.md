@@ -20,23 +20,70 @@ Imiona i nazwiska autorów : Gabriela Dumańska, Katarzyna Lisiecka
   - `CountryID` -  identyfikator kraju, klucz obcy
   - `PhoneNumber` -  numer telefonu
   - `Email` - adres e-mail
+  ```sql
+  CREATE TABLE Persons (
+      PersonID int NOT NULL AUTO_INCREMENT,
+      Name varchar(20) NOT NULL,
+      Surname varchar(20) NOT NULL,
+      StreetAddress varchar(50) NOT NULL,
+      CityID int NOT NULL,
+      CountryID int NOT NULL,
+      PhoneNumber varchar(10) NOT NULL,
+      Email varchar(30) NOT NULL,
+      UNIQUE (Email),
+      UNIQUE (PhoneNumber),
+      PRIMARY KEY (PersonID),
+      CONSTRAINT FK_PersonsCities FOREIGN KEY (CityID) REFERENCES Cities(CityID),
+      CONSTRAINT FK_PersonsCountries FOREIGN KEY (CountryID) REFERENCES Countries(CountryID)
+  );
+  ```
 
 - `Workers` - pracownicy
   - `PersonID` - identyfikator, klucz główny, klucz obcy
   - `Salary` - wypłata
+  ```sql
+  CREATE TABLE Workers (
+      PersonID int NOT NULL,
+      Salary int NOT NULL,
+      PRIMARY KEY (PersonID),
+      CONSTRAINT FK_WorkersPersons FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+  );
+  ```
 
 - `Cities` - słownik miast
   - `CityID` - identyfikator, klucz główny
   - `CityName` - nazwa miasta
+  ```sql
+  CREATE TABLE Cities (
+      CityID int NOT NULL AUTO_INCREMENT,
+      CityName varchar(20) NOT NULL,
+      PRIMARY KEY (CountryID)
+  );
+  ```
 
 - `Countries` - słownik państw
   - `CountryID` - identyfikator, klucz główny
   - `CountryName` - nazwa państwa
+  ```sql
+  CREATE TABLE Countries (
+      CountryID int NOT NULL AUTO_INCREMENT,
+      CountryName varchar(20) NOT NULL,
+      PRIMARY KEY (CountryID)
+  );
+  ```
 
 - `Rooms` - pokoje
   - `RoomID` - identyfikator, klucz główny
   - `NumberOfPlaces` - liczba miejsc
   - `Price` - cena za pokój za dobę hotelową
+  ```sql
+  CREATE TABLE Rooms (
+      RoomID int NOT NULL AUTO_INCREMENT,
+      NumberOfPlace int NOT NULL,
+      Price int NOT NULL,
+      PRIMARY KEY (RoomID)
+  );
+  ```
 
 - `Reservations`  - rezerwacje
 
@@ -65,109 +112,13 @@ Imiona i nazwiska autorów : Gabriela Dumańska, Katarzyna Lisiecka
 - `Statuses` - słownik statusów
   - `StatusID` - identyfikator, klucz główny
   - `StatusName` - nazwa statusu- rezerwacja nowa, potwierdzona i zapłacona, anulowana
-
-
-```sql
-create sequence s_person_seq  
-   start with 1  
-   increment by 1;
-
-create table person  
-(  
-  person_id int not null
-      constraint pk_person  
-         primary key,
-  firstname varchar(50),  
-  lastname varchar(50)
-)  
-
-alter table person  
-    modify person_id int default s_person_seq.nextval;
-   
-```
-
-```sql
-create sequence s_trip_seq  
-   start with 1  
-   increment by 1;
-
-create table trip  
-(  
-  trip_id int  not null
-     constraint pk_trip  
-         primary key, 
-  trip_name varchar(100),  
-  country varchar(50),  
-  trip_date date,  
-  max_no_places int
-);  
-
-alter table trip 
-    modify trip_id int default s_trip_seq.nextval;
-```
-
-```sql
-create sequence s_reservation_seq  
-   start with 1  
-   increment by 1;
-
-create table reservation  
-(  
-  reservation_id int not null
-      constraint pk_reservation  
-         primary key, 
-  trip_id int,  
-  person_id int,  
-  status char(1)
-);  
-
-alter table reservation 
-    modify reservation_id int default s_reservation_seq.nextval;
-
-
-alter table reservation  
-add constraint reservation_fk1 foreign key  
-( person_id ) references person ( person_id ); 
-  
-alter table reservation  
-add constraint reservation_fk2 foreign key  
-( trip_id ) references trip ( trip_id );  
-  
-alter table reservation  
-add constraint reservation_chk1 check  
-(status in ('N','P','C'));
-
-```
-
-```sql
-create sequence s_log_seq  
-   start with 1  
-   increment by 1;
-
-
-create table log  
-(  
-    log_id int not null
-         constraint pk_log  
-         primary key,
-    reservation_id int not null,  
-    log_date date not null,  
-    status char(1)
-);  
-
-alter table log 
-    modify log_id int default s_log_seq.nextval;
-  
-alter table log  
-add constraint log_chk1 check  
-(status in ('N','P','C')) enable;
-  
-alter table log  
-add constraint log_fk1 foreign key  
-( reservation_id ) references reservation ( reservation_id );
-```
-
-
+  ```sql
+  CREATE TABLE Statuses(
+      StatusID int NOT NULL AUTO_INCREMENT,
+      StatusName ENUM('new', 'confirmed', 'paid', 'cancelled'),
+      PRIMARY KEY (StatusID)
+  );
+  ```
 
 
 ---
