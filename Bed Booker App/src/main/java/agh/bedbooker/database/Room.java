@@ -22,9 +22,4 @@ public class Room {
     public int getPricePerNight() {
         return pricePerNight;
     }
-
-    @Override
-    public String toString() {
-        return "         "+ roomId + "                   " + numberOfPlaces + "                       " + pricePerNight;
-    }
 }

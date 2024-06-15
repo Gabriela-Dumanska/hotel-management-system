@@ -5,5 +5,8 @@ module agh.bedbooker {
 
 
     opens agh.bedbooker to javafx.fxml;
+    opens agh.bedbooker.database to javafx.base;
     exports agh.bedbooker;
+    exports agh.bedbooker.admin;
+    opens agh.bedbooker.admin to javafx.fxml;
 }

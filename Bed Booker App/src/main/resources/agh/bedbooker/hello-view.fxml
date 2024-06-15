@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="258.0" prefWidth="278.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="agh.bedbooker.HelloController" fx:id="rootVBox">
+<VBox fx:id="rootVBox" alignment="CENTER" prefHeight="250.0" prefWidth="660.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.bedbooker.HelloController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -19,7 +19,7 @@
    </ImageView>
    <HBox alignment="CENTER" prefHeight="169.0" prefWidth="256.0">
       <children>
-         <Button alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #2b3244;" text="KLIENT" textFill="#f9f7f6" onAction="#onClientButtonClick">
+         <Button alignment="CENTER" mnemonicParsing="false" onAction="#onClientButtonClick" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #2b3244;" text="KLIENT" textFill="#f9f7f6">
             <opaqueInsets>
                <Insets right="50.0" />
             </opaqueInsets>
@@ -30,7 +30,7 @@
                <Font name="Berlin Sans FB" size="15.0" />
             </font>
          </Button>
-         <Button alignment="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #2b3244;" text="ADMIN" textFill="#f9f7f6" onAction="#onAdminButtonClick">
+         <Button alignment="CENTER" mnemonicParsing="false" onAction="#onAdminButtonClick" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #2b3244;" text="ADMIN" textFill="#f9f7f6">
             <opaqueInsets>
                <Insets left="100.0" />
             </opaqueInsets>
