@@ -42,9 +42,7 @@ public class AdminView {
     }
 
     @FXML
-    public void onReservationsButtonClick() {
-        loadScene("admin-reservations-view.fxml");
-    }
+    public void onReservationsButtonClick() { loadScene("admin-reservations-view.fxml"); }
 
     @FXML
     public void onDamagesButtonClick() {

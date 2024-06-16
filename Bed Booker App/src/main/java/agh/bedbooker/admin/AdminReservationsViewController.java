@@ -5,7 +5,7 @@ import agh.bedbooker.database.Reservation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class AdminReservationsViewController extends AdminView {
     @FXML
@@ -44,7 +45,10 @@ public class AdminReservationsViewController extends AdminView {
     @FXML
     private TableColumn<Reservation, Integer> columnDiscount;
     @FXML
-    private ComboBox<String> filterComboBox;
+    private DatePicker startDatePicker;
+
+    @FXML
+    private DatePicker endDatePicker;
 
     private final ObservableList<Reservation> reservations = FXCollections.observableArrayList();
 
@@ -65,14 +69,22 @@ public class AdminReservationsViewController extends AdminView {
         columnDiscount.setCellValueFactory(new PropertyValueFactory<>("discount"));
 
         tableView.setItems(reservations);
-
-        ObservableList<String> options = FXCollections.observableArrayList(
-        );
-        filterComboBox.setItems(options);
-
     }
 
+    @FXML
     private void loadDataFromDatabase() {
+        LocalDate startDate = startDatePicker.getValue();
+        LocalDate endDate = endDatePicker.getValue();
+
+        if (startDate == null) {
+            startDate = LocalDate.of(2000, 1, 1);
+        }
+        if (endDate == null) {
+            endDate = LocalDate.of(3000, 12, 31);
+        }
+
+        reservations.clear();
+
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -80,7 +92,9 @@ public class AdminReservationsViewController extends AdminView {
         try {
             connection = DatabaseConnectionManager.getConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM ReservationDetails");
+
+            String query = "SELECT * FROM ReservationDetails WHERE StartDate >= '" + startDate + "' AND EndDate <= '" + endDate + "'";
+            resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
                 int reservationID = resultSet.getInt("ReservationID");
@@ -89,15 +103,15 @@ public class AdminReservationsViewController extends AdminView {
                 int roomID = resultSet.getInt("RoomID");
                 int numberOfPlaces = resultSet.getInt("NumberOfPlaces");
                 int roomPricePerNight = resultSet.getInt("RoomPrice");
-                String startDate = resultSet.getString("StartDate");
-                String endDate = resultSet.getString("EndDate");
+                String dbStartDate = resultSet.getString("StartDate");
+                String dbEndDate = resultSet.getString("EndDate");
                 int numberOfDays = resultSet.getInt("NumberOfDays");
-                int price= resultSet.getInt("ReservationPrice");
-                int discount= resultSet.getInt("Discount");
+                int price = resultSet.getInt("ReservationPrice");
+                int discount = resultSet.getInt("Discount");
 
                 Reservation reservation = new Reservation(reservationID, name, surname, roomID, numberOfPlaces,
-                                                        roomPricePerNight, startDate, endDate, numberOfDays,
-                                                        price, discount);
+                        roomPricePerNight, dbStartDate, dbEndDate, numberOfDays,
+                        price, discount);
                 reservations.add(reservation);
             }
 
@@ -111,11 +125,6 @@ public class AdminReservationsViewController extends AdminView {
                 e.printStackTrace();
             }
         }
-    }
-
-    @FXML
-    private void applyFilter() {
-        String filter = filterComboBox.getValue();
     }
 
 }
