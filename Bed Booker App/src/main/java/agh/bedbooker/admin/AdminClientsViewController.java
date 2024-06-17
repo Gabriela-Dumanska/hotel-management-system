@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Connection;
@@ -46,6 +47,8 @@ public class AdminClientsViewController extends AdminView {
     private TableColumn<Person, String> columnRegular;
     @FXML
     private ComboBox<String> filterComboBox;
+    @FXML
+    private TextField clientsSurname;
 
     private final ObservableList<Person> persons = FXCollections.observableArrayList();
 
@@ -75,7 +78,10 @@ public class AdminClientsViewController extends AdminView {
         filterComboBox.setItems(options);
     }
 
+    @FXML
     private void loadDataFromDatabase() {
+        persons.clear();
+
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
@@ -83,7 +89,30 @@ public class AdminClientsViewController extends AdminView {
         try {
             connection = DatabaseConnectionManager.getConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM CustomerFullInfo");
+            String clientsSurnameText = clientsSurname.getText();
+            String selectedFilter = filterComboBox.getValue();
+            StringBuilder whereClause = new StringBuilder(" WHERE 1=1 ");
+
+            if (clientsSurnameText != null && !clientsSurnameText.isEmpty()) {
+                whereClause.append("AND Surname LIKE '").append(clientsSurnameText).append("%' ");
+            }
+            if (selectedFilter != null) {
+                switch (selectedFilter) {
+                    case "Nieproszeni":
+                        whereClause.append("AND IsBanned = 'True' ");
+                        break;
+                    case "Stali Klienci":
+                        whereClause.append("AND IsRegular = 'True' ");
+                        break;
+                    case "Tylko z Polski":
+                        whereClause.append("AND Country = 'Polska' ");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            resultSet = statement.executeQuery("SELECT * FROM CustomerFullInfo" + whereClause);
 
             while (resultSet.next()) {
                 int personId = resultSet.getInt("PersonID");

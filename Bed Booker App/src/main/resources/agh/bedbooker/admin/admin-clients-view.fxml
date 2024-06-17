@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,17 +19,22 @@
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="640.0" stroke="#89959e" strokeType="INSIDE" width="159.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="40.0" stroke="#89959e" strokeType="INSIDE" width="960.0" />
-      <HBox alignment="CENTER_RIGHT" layoutX="158.0" prefHeight="42.0" prefWidth="770.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="158.0" prefHeight="42.0" prefWidth="800.0">
          <children>
-            <Label prefHeight="36.0" prefWidth="530.0" text="KLIENCI" textFill="#f2f1ec">
+            <Label prefHeight="36.0" prefWidth="439.0" text="KLIENCI" textFill="#f2f1ec">
                <font>
                   <Font name="Century Gothic Bold" size="28.0" />
                </font>
                <HBox.margin>
-                  <Insets right="170.0" />
+                  <Insets right="45.0" />
                </HBox.margin>
             </Label>
-            <ComboBox fx:id="filterComboBox" onAction="#applyFilter" prefHeight="20.0" prefWidth="300.0" promptText="Wybierz filtr">
+            <TextField fx:id="clientsSurname" onAction="#loadDataFromDatabase" promptText="Wyszukaj po nazwisku">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </TextField>
+            <ComboBox fx:id="filterComboBox" onAction="#loadDataFromDatabase" prefHeight="20.0" prefWidth="150.0" promptText="Wybierz filtr">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>

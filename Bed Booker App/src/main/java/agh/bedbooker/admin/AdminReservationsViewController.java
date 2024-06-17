@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Connection;
@@ -46,9 +47,10 @@ public class AdminReservationsViewController extends AdminView {
     private TableColumn<Reservation, Integer> columnDiscount;
     @FXML
     private DatePicker startDatePicker;
-
     @FXML
     private DatePicker endDatePicker;
+    @FXML
+    private TextField clientsSurname;
 
     private final ObservableList<Reservation> reservations = FXCollections.observableArrayList();
 
@@ -75,12 +77,20 @@ public class AdminReservationsViewController extends AdminView {
     private void loadDataFromDatabase() {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
-
-        if (startDate == null) {
-            startDate = LocalDate.of(2000, 1, 1);
+        String clientsSurnameText = null;
+        if(clientsSurname!=null) {
+            clientsSurnameText = clientsSurname.getText();
         }
-        if (endDate == null) {
-            endDate = LocalDate.of(3000, 12, 31);
+        StringBuilder whereClause = new StringBuilder(" WHERE 1=1 ");
+
+        if (startDate != null) {
+            whereClause.append("AND StartDate >= '").append(startDate).append("' ");
+        }
+        if (endDate != null) {
+            whereClause.append("AND EndDate <= '").append(endDate).append("' ");
+        }
+        if (clientsSurnameText != null && !clientsSurnameText.isEmpty()) {
+            whereClause.append("AND PersonSurname LIKE '").append(clientsSurnameText).append("%' ");
         }
 
         reservations.clear();
@@ -93,7 +103,7 @@ public class AdminReservationsViewController extends AdminView {
             connection = DatabaseConnectionManager.getConnection();
             statement = connection.createStatement();
 
-            String query = "SELECT * FROM ReservationDetails WHERE StartDate >= '" + startDate + "' AND EndDate <= '" + endDate + "'";
+            String query = "SELECT * FROM ReservationDetails" + whereClause;
             resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {

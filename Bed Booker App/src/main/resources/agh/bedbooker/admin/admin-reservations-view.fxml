@@ -29,7 +29,7 @@
                   <Insets right="55.0" />
                </HBox.margin>
             </Label>
-            <TextField>
+            <TextField fx:id="clientsSurname" onAction="#loadDataFromDatabase" promptText="Wyszukaj po nazwisku">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
