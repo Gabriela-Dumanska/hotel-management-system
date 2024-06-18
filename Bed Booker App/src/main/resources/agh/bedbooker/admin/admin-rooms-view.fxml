@@ -13,20 +13,42 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.bedbooker.admin.AdminRoomsViewController">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="960.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.bedbooker.admin.AdminRoomsViewController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="647.0" stroke="#89959e" strokeType="INSIDE" width="159.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="40.0" stroke="#89959e" strokeType="INSIDE" width="960.0" />
-      <HBox alignment="CENTER_RIGHT" layoutX="158.0" prefHeight="42.0" prefWidth="702.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="158.0" prefHeight="42.0" prefWidth="800.0">
          <children>
             <Label prefHeight="36.0" prefWidth="536.0" text="POKOJE" textFill="#f2f1ec">
                <font>
                   <Font name="Century Gothic Bold" size="28.0" />
                </font>
                <HBox.margin>
-                  <Insets right="170.0" />
+                  <Insets right="190.0" />
                </HBox.margin>
             </Label>
+            <Button fx:id="refreshButton" onAction="#loadDataFromDatabase" prefHeight="39.0" prefWidth="40.0" scaleShape="false" style="-fx-background-color: #89959e;" styleClass="addButton" text="⟳" textFill="#f2f1ec">
+               <font>
+                  <Font name="Century Gothic Bold" size="42.0" />
+               </font>
+               <padding>
+                  <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-15.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="addButton" onAction="#showAddRoomDialog" prefHeight="39.0" prefWidth="40.0" scaleShape="false" style="-fx-background-color: #89959e;" styleClass="addButton" text="+" textFill="#f2f1ec">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Century Gothic Bold" size="44.0" />
+               </font>
+               <padding>
+                  <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+               </padding>
+            </Button>
          </children>
       </HBox>
       <VBox alignment="TOP_CENTER" layoutY="37.0" prefHeight="600.0" prefWidth="160.0">

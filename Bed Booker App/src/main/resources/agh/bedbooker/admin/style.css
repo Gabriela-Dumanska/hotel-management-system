@@ -4,3 +4,11 @@
 .chart-series-line {
     -fx-stroke: #EE4B6A;
 }
+
+#addButton:hover {
+    -fx-text-fill: #ffffff;
+}
+
+#refreshButton:hover {
+    -fx-text-fill: #ffffff;
+}

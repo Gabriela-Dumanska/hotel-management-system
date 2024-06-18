@@ -5,16 +5,10 @@ import agh.bedbooker.database.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class AdminClientsViewController extends AdminView {
     @FXML
@@ -140,43 +134,6 @@ public class AdminClientsViewController extends AdminView {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    @FXML
-    private void applyFilter() {
-        String filter = filterComboBox.getValue();
-        if (filter == null || filter.equals("all")) {
-            tableView.setItems(persons);
-        } else {
-            ObservableList<Person> filteredList = FXCollections.observableArrayList();
-            switch (filter) {
-                case "Nieproszeni":
-                    for (Person person : persons) {
-                        if (person.isBanned()) {
-                            filteredList.add(person);
-                        }
-                    }
-                    break;
-                case "Stali Klienci":
-                    for (Person person : persons) {
-                        if (person.isRegular()) {
-                            filteredList.add(person);
-                        }
-                    }
-                    break;
-                case "Tylko z Polski":
-                    for (Person person : persons) {
-                        if ("Polska".equals(person.getCountry())) {
-                            filteredList.add(person);
-                        }
-                    }
-                    break;
-                case "Wszyscy":
-                    filteredList.addAll(persons);
-                    break;
-            }
-            tableView.setItems(filteredList);
         }
     }
 }
