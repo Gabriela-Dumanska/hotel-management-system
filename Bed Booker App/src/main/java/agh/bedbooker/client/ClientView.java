@@ -13,10 +13,24 @@ public class ClientView {
     @FXML
     private AnchorPane rootAnchorPane;
 
-    protected String email;
+    private static String email = null;
+
+    private static int clientID = -1;
+
+    public void setClientID(int clientID) {
+        ClientView.clientID = clientID;
+    }
+
+    public int getClientID(){
+        return clientID;
+    }
 
     public void setEmail(String email) {
-        this.email = email;
+        ClientView.email = email;
+    }
+
+    public String getEmail(){
+        return email;
     }
 
     public void loadSceneWithEmail(String fxmlFile, String email) {
@@ -34,4 +48,10 @@ public class ClientView {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void onDataButtonClick(){loadSceneWithEmail("client-personal-data-view.fxml", email);}
+
+    @FXML
+    public void onNewReservationButtonClick(){loadSceneWithEmail("client-new-reservation-view.fxml", email);}
 }

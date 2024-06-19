@@ -35,10 +35,11 @@ public class ClientPersonalDataView extends ClientView{
             connection = DatabaseConnectionManager.getConnection();
             String sql = "SELECT * FROM Persons WHERE Email = ?";
             statement = connection.prepareStatement(sql);
-            statement.setString(1, email);
+            statement.setString(1, getEmail());
             resultSet = statement.executeQuery();
 
             if(resultSet.next()){
+                setClientID(resultSet.getInt("PersonID"));
                 nameLabel.setText(resultSet.getString("Name"));
                 surnameLabel.setText(resultSet.getString("Surname"));
                 streetLabel.setText(resultSet.getString("StreetAddress"));
