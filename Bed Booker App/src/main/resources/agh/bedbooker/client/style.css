@@ -1,0 +1,21 @@
+.default-color0.chart-pie { -fx-pie-color: #FA824C; }
+.default-color1.chart-pie { -fx-pie-color: #EE4B6A; }
+
+.chart-series-line {
+    -fx-stroke: #EE4B6A;
+}
+
+#addButton:hover {
+    -fx-text-fill: #ffffff;
+}
+
+#refreshButton:hover {
+    -fx-text-fill: #ffffff;
+}
+
+#payButton:hover {
+    -fx-text-fill: #ffffff;
+}
+#cancelButton:hover {
+    -fx-text-fill: #ffffff;
+}

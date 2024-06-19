@@ -87,6 +87,7 @@ public class AdminDamagesViewController extends AdminView {
         VBox dialogVBox = new VBox(10);
         dialogVBox.setPadding(new Insets(10));
 
+
         Label reservationLabel = new Label("ID Rezerwacji:");
         TextField reservationField = new TextField();
 

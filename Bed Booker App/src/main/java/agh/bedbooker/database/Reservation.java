@@ -12,6 +12,7 @@ public class Reservation {
     private int numberOfDays;
     private int price;
     private int discount;
+    private String status;
 
     public Reservation(int reservationID, String name, String surname, int roomID, int numberOfPlaces,
                        int roomPricePerNight, String startDate, String endDate, int numberOfDays, int price, int discount) {
@@ -67,4 +68,12 @@ public class Reservation {
     }
 
     public int getNumberOfDays() { return numberOfDays; }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

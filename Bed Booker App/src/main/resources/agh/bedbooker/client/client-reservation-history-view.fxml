@@ -13,20 +13,42 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.bedbooker.client.ClientDamagesView">
+<AnchorPane fx:id="rootAnchorPane" stylesheets="@style.css" prefHeight="640.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.bedbooker.client.ClientReservationHistoryView">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="640.0" stroke="#89959e" strokeType="INSIDE" width="180.0" />
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="40.0" stroke="#89959e" strokeType="INSIDE" width="960.0" />
         <HBox alignment="CENTER_LEFT" layoutX="180.0" prefHeight="42.0" prefWidth="800.0">
             <children>
-                <Label prefHeight="36.0" prefWidth="439.0" text="ZNISZCZENIA" textFill="#f2f1ec">
+                <Label prefHeight="36.0" prefWidth="439.0" text="HISTORIA REZERWACJI" textFill="#f2f1ec">
                     <font>
                         <Font name="Century Gothic Bold" size="28.0" />
                     </font>
                     <HBox.margin>
-                        <Insets right="45.0" />
+                        <Insets right="230.0" />
                     </HBox.margin>
                 </Label>
+            <Button fx:id="payButton"  onAction="#payForReservation" prefWidth="31.0" style="-fx-background-color: #89959e;" text="\$" textFill="#f2f1ec">
+               <font>
+                  <Font name="Century Gothic Bold" size="28.0" />
+               </font>
+               <padding>
+                  <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="cancelButton" onAction="#cancelReservation" mnemonicParsing="false" prefHeight="49.0" prefWidth="31.0" style="-fx-background-color: #89959e;" text="⃠" textFill="#f2f1ec">
+               <font>
+                  <Font name="Century Gothic Bold" size="26.0" />
+               </font>
+               <padding>
+                  <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
             </children>
         </HBox>
         <VBox alignment="TOP_CENTER" layoutY="37.0" prefHeight="600.0" prefWidth="180.0">
@@ -47,7 +69,7 @@
                         <Insets top="30.0" />
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false"  onAction="#onReservationHistoryButtonClick" prefHeight="20.0" prefWidth="150.0" style="-fx-background-color: #f2f1ec;" text="HISTORIA REZERWACJI" textFill="#292c35">
+                <Button mnemonicParsing="false" onAction="#onReservationHistoryButtonClick" prefHeight="20.0" prefWidth="150.0" style="-fx-background-color: #f2f1ec;" text="HISTORIA REZERWACJI" textFill="#292c35">
                     <font>
                         <Font name="Century Gothic" size="12.0" />
                     </font>
@@ -80,10 +102,14 @@
                 -fx-text-fill: #292c35;
             </style>
             <columns>
-                <TableColumn fx:id="damageID" prefWidth="110.40000915527344" text="ID Szkody" />
-                <TableColumn fx:id="reservationID" prefWidth="184.79998779296875" text="ID Rezerwacji" />
-                <TableColumn fx:id="columnDate" prefWidth="144.79998779296875" text="Data" />
-                <TableColumn fx:id="columnPrice" prefWidth="144.79998779296875" text="Wartość" />
+                <TableColumn fx:id="reservationID" prefWidth="110.40000915527344" text="ID Rezerwacji" />
+                <TableColumn fx:id="roomID" prefWidth="184.79998779296875" text="ID Pokoju" />
+                <TableColumn fx:id="numberOfPlaces" prefWidth="184.79998779296875" text="Liczba miejsc" />
+                <TableColumn fx:id="startDate" prefWidth="184.79998779296875" text="Początek pobytu" />
+                <TableColumn fx:id="endDate" prefWidth="184.79998779296875" text="Koniec pobytu" />
+                <TableColumn fx:id="reservationPrice" prefWidth="184.79998779296875" text="Cena za pobyt" />
+                <TableColumn fx:id="discount" prefWidth="184.79998779296875" text="Zniżka [%]" />
+                <TableColumn fx:id="status" prefWidth="184.79998779296875" text="Status" />
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
