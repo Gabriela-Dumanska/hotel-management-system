@@ -74,6 +74,8 @@ Widok administratora został zabezpieczony hasłem przed nieporządanymi działa
 
 <img src="zrzuty_ekranu/logowanie.png" alt="Schemat bazy danych" width="500"/>
 
+--- 
+
   ## Statystyki
 
 <img src="zrzuty_ekranu/statystyki.png" alt="Schemat bazy danych" width="500"/>
@@ -277,21 +279,30 @@ BEGIN
 END;
 ```
 
+---
+
 # Widok klienta
 Widok klienta zawiera infomacje interesujące konkretnego klienta. Funckjonalności z wyjątkiem logowania zostaną omówione na przykładzie zalogowanego użytkownika.
+
 <img src="zrzuty_ekranu/k_log.png" width="500">
 
 ## Logowanie do systemu
-Logowanie do systemu zostało uproszczone i odbywa się jedynie poprzez podanie prawdiłowego adresu e-mail (czyli takiego, który występuje w bazie danych). Możemy również podać e-mail, którego nie ma w bazie- wtedy jesteśmy traktowani jako niezalogowani.
+Logowanie do systemu zostało uproszczone i odbywa się jedynie poprzez podanie prawidłowego adresu e-mail (czyli takiego, który występuje w bazie danych). Możemy również podać e-mail, którego nie ma w bazie- wtedy jesteśmy traktowani jako niezalogowani.
 
 ### Bez logowania
-Jeżeli podamy e-mail nieistniejący w bazie, utracimy dostęp do pewnych funckjonalności. Jednak w zakłdace `Dane` dostaniemy możliwość utworzenia konta. 
+Jeżeli podamy e-mail nieistniejący w bazie, utracimy dostęp do pewnych funckjonalności. 
+Jednak w zakłdace `Dane` dostaniemy możliwość utworzenia konta.
+
+<img src="zrzuty_ekranu/niezalogowany.png" width="500">
+
 Jest to realizowane przez funckję `AddCustomer`:
 ```sql
 create procedure AddCustomer(IN CustomerName varchar(20), IN CustomerSurname varchar(20),
                                                    IN CustomerStreetAddress varchar(50),
-                                                   IN CustomerCityName varchar(20), IN CustomerCountryName varchar(20),
-                                                   IN CustomerPhoneNumber varchar(10), IN CustomerEmail varchar(30))
+                                                   IN CustomerCityName varchar(20),
+                                                   IN CustomerCountryName varchar(20),
+                                                   IN CustomerPhoneNumber varchar(10), 
+                                                   IN CustomerEmail varchar(30))
 BEGIN
     DECLARE CityID INT;
     DECLARE CountryID INT;
@@ -309,13 +320,71 @@ BEGIN
     SELECT CityID INTO CityID FROM Cities WHERE CityName = CustomerCityName;
 
     INSERT INTO Persons (Name, Surname, StreetAddress, CityID, CountryID, PhoneNumber, Email)
-    VALUES (CustomerName, CustomerSurname, CustomerStreetAddress, CityID, CountryID, CustomerPhoneNumber, CustomerEmail);
+    VALUES (CustomerName, CustomerSurname, CustomerStreetAddress, CityID, CountryID, 
+            CustomerPhoneNumber, CustomerEmail);
 END;
 ```
 
 ### Poprawny e-mail
 Zalogujmy się jako Tomasz Kowalczyk (tomasz.kowalczyk@example.com). Po zalogowaniu widzimy nasze dane.
+
 <img src="zrzuty_ekranu/k_dane_z_bazy.png" width="500">
+
+---
+
+## Historia rezerwacji
+
+Historia rezerwacji pozwala klientowi przeglądać swoje rezerwacje oraz zarządzać ich statusem- płacić i odwoływać.
+
+<img src="zrzuty_ekranu/historia_rezerwacji.png" width="500"/>
+
+System kontroluje, czy Klient aby na pewno podaje ID swojej Rezerwacji. Kontroluje również czy Klient nie próbuje zapłacić za rezerwację odwołaną- taka transakcja jest przerywana.
+
+Płatność obsługuje następująca procedura:
+
+```sql
+CREATE PRODEDURE PayForReservation(IN v_reservationId int)
+BEGIN
+    DECLARE currentStatus INT;
+
+    SELECT StatusID INTO currentStatus
+    FROM Reservations
+    WHERE ReservationID = v_reservationId;
+
+    IF currentStatus = 4 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Nie można zapłacić za odwołaną rezerwację';
+    ELSE
+        CALL UpdateReservationStatus(v_reservationId, 3);
+    END IF;
+END;
+```
+
+Odwoływanie:
+
+```sql
+CREATE PROCEDURE CancelReservation(IN v_reservationId int)
+BEGIN
+    CALL UpdateReservationStatus(v_reservationId, 4);
+END;
+```
+
+Funkcja aktualizująca status podanej rezerwacji uzupełnia również tabelę Logs:
+
+```sql
+CREATE PROCEDURE UpdateReservationStatus(IN v_reservationId int, IN newStatusId int)
+BEGIN
+    UPDATE Reservations
+    SET StatusID = newStatusId
+    WHERE ReservationID = v_reservationId;
+
+    INSERT INTO Logs(ReservationID, StatusID, DateTime)
+    VALUES (v_reservationId, newStatusId, NOW());
+END;
+
+```
+
+---
 
 ## Nowa rezerwacja
 Możemy ustawić minimalną i maksymlną kwotę za noc jak i liczbę miejsc, która nas interesuje.
@@ -343,7 +412,8 @@ END;
 ```
 Ta procedura korzysta natomiast z procedury `IsRoomAvailable`, która szuka pokoi, które nie posiadają rezerwacji w danym terminie (mowa o nieodwołanych rezerwacjach).
 ```sql
-create function IsRoomAvailable(RoomIDParam int, StartDateParam date, EndDateParam date) returns int
+create function IsRoomAvailable(RoomIDParam int, StartDateParam date, EndDateParam date) 
+    returns int
 BEGIN
     DECLARE RoomCount INT;
             
@@ -363,21 +433,28 @@ END;
 ```
 
 Możemy teraz dodać nową rezerwację. Zostaniemy poproszeni o ID interesującego nas pokokju:
+
 <img src="zrzuty_ekranu/k_choose_num.png" width="500"/>
 
 Wybierzmy pokój 25. Po zatwierdzeniu, dostajemy komunikat o dodanej rezerwacji.
+
 <img src="zrzuty_ekranu/k_res_suc.png" width="500">
 
 A na koniec widok dostępnych pokoi w danym terminie się aktualizuje:
+
 <img src="zrzuty_ekranu/k_res_suc_po.png" width="500"/>
 
 Możemy również zobaczyć, że nowa rezerwacja pojawiła się w bazie danych:
+
 <img src="zrzuty_ekranu/k_res.png" width="500"/>
 
 Jeżeli ktoś, jest na liście klientów nieproszonych, nie ma możliwości złożenia rezerwacji.
 
+<img src="zrzuty_ekranu/nieproszony.png" width="400"/>
+---
+
 ## Szkody
-Logując się przykładowo jako Andzrej Lewandowski (andrzej.lewandowski@example.com), gdy wejdziemy w zakładki `Szkody` zobaczymy wszystkie szkody spowodowane przez Andrzeja. 
+Logując się przykładowo jako Andrzej Lewandowski (andrzej.lewandowski@example.com), gdy wejdziemy w zakładki `Szkody` zobaczymy wszystkie szkody spowodowane przez Andrzeja. 
 
 Korzystamy tutaj procedury `GetDamagesForPerson`:
 ```sql
