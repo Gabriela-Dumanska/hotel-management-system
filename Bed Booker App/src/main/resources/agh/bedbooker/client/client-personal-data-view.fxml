@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
@@ -14,7 +11,8 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="agh.bedbooker.client.ClientPersonalDataView"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="640.0" prefWidth="960.0"
+            fx:id="rootAnchorPane">
 
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="640.0" stroke="#89959e" strokeType="INSIDE" width="159.0" />
@@ -41,7 +39,7 @@
                         <Insets top="10.0" />
                     </VBox.margin>
                 </ImageView>
-                <Button mnemonicParsing="false"  prefHeight="20.0" prefWidth="120.0" style="-fx-background-color: #f2f1ec;" text="DANE" textFill="#292c35">
+                <Button mnemonicParsing="false" onAction="#onDataButtonClick" prefHeight="20.0" prefWidth="120.0" style="-fx-background-color: #f2f1ec;" text="DANE" textFill="#292c35">
                     <font>
                         <Font name="Century Gothic" size="12.0" />
                     </font>
@@ -49,7 +47,15 @@
                         <Insets top="30.0" />
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false"  prefHeight="20.0" prefWidth="120.0" style="-fx-background-color: #f2f1ec;" text="REZERWACJE" textFill="#292c35">
+                <Button mnemonicParsing="false"  prefHeight="20.0" prefWidth="120.0" style="-fx-background-color: #f2f1ec;" text="HISTORIA REZERWACJI" textFill="#292c35">
+                    <font>
+                        <Font name="Century Gothic" size="12.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#onNewReservationButtonClick" prefHeight="20.0" prefWidth="120.0" style="-fx-background-color: #f2f1ec;" text="NOWA REZERWACJA" textFill="#292c35">
                     <font>
                         <Font name="Century Gothic" size="12.0" />
                     </font>
