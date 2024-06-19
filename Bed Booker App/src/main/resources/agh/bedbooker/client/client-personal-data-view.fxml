@@ -71,13 +71,13 @@
             <children>
                 <Label text="Email:" />
                 <Label fx:id="emailLabel"/>
-                <Label text="Name:" />
+                <Label text="Imię:" />
                 <Label fx:id="nameLabel"/>
-                <Label text="Surname:" />
+                <Label text="Nazwisko:" />
                 <Label fx:id="surnameLabel"/>
-                <Label text="Phone number:" />
+                <Label text="Numer telefonu:" />
                 <Label fx:id="phoneLabel"/>
-                <Label text="Street:" />
+                <Label text="Ulica:" />
                 <Label fx:id="streetLabel"/>
             </children>
         </VBox>

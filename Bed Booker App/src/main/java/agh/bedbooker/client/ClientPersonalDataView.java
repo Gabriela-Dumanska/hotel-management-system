@@ -44,7 +44,10 @@ public class ClientPersonalDataView extends ClientView{
                 streetLabel.setText(resultSet.getString("StreetAddress"));
                 phoneLabel.setText(resultSet.getString("PhoneNumber"));
             }else{
-
+                nameLabel.setText("-");
+                surnameLabel.setText("-");
+                streetLabel.setText("-");
+                phoneLabel.setText("-");
             }
         } catch (SQLException e) {
             e.printStackTrace();
