@@ -1,5 +1,6 @@
 package agh.bedbooker;
 
+import agh.bedbooker.client.ClientView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,17 +20,44 @@ public class HelloController {
     @FXML
     private VBox rootVBox;
 
-    @FXML
-    protected void onClientButtonClick() {
+//    @FXML
+//    protected void onClientButtonClick() {
+//        try {
+//            Stage stage = (Stage) rootVBox.getScene().getWindow();
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("client/client-personal-data-view.fxml"));
+//            Scene scene = new Scene(fxmlLoader.load(), 278, 258);
+//            stage.setScene(scene);
+//            stage.centerOnScreen();
+//            stage.show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+@FXML
+protected void onClientButtonClick() {
+    TextInputDialog dialog = new TextInputDialog();
+    dialog.setWidth(500);
+    dialog.setTitle("Client");
+    dialog.setHeaderText("Enter Email");
+
+    Optional<String> result = dialog.showAndWait();
+    result.ifPresent(email -> {
         try {
-            Stage stage = (Stage) rootVBox.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("client-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 278, 258);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("client/client-personal-data-view.fxml"));
+            Parent root = fxmlLoader.load();
+            ClientView controller = fxmlLoader.getController();
+            controller.setEmail(email);
+
+            Stage stage = new Stage();
+            stage.setTitle("Client View");
+            Scene scene = new Scene(root, 960, 640);
             stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    });
+}
 
     @FXML
     protected void onAdminButtonClick() {
