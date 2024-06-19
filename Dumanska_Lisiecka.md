@@ -65,6 +65,7 @@ Imiona i nazwiska autorów : Gabriela Dumańska, Katarzyna Lisiecka
   - `StatusName` - nazwa statusu- rezerwacja nowa, potwierdzona i zapłacona, anulowana
   
 ---
+<div style="page-break-after: always;"></div>
 
 # Widok administratora
 Dla widoku administratora zaprojektowano kluczowe funkcje dla kontrolowania pracy hotelu.
@@ -81,6 +82,9 @@ Widok administratora został zabezpieczony hasłem przed nieporządanymi działa
 <img src="zrzuty_ekranu/statystyki.png" alt="Schemat bazy danych" width="500"/>
 
   Ten panel pomaga pracownikowi szybko zorietnować się w jakim stanie jest obecnie hotel.
+
+  <div style="page-break-after: always;"></div>
+
   ### Zarobki z ostatnich 5 miesięcy
   Tę statystykę uzyskano korzystając z następującego widoku:
    
@@ -112,6 +116,8 @@ Widok administratora został zabezpieczony hasłem przed nieporządanymi działa
       FROM Rooms r
   ```
   W kolejnym punkcie w razie potrzeby wyciągnięcia dwóch liczb z bazy danych wykonano to w ramach jednego widoku, co uznano za lepsze rozwiązanie. 
+
+<div style="page-break-after: always;"></div>
 
   ### Poniesione szkody
   Pierwszy wykres kołowy to prosta statystyka unikalnych rezerwacji z tabeli Damages do pozostałych rezerwacji.
@@ -147,6 +153,8 @@ Widok administratora został zabezpieczony hasłem przed nieporządanymi działa
   ```
 ---
 
+<div style="page-break-after: always;"></div>
+
   ## Pokoje
   To prosty ekran do przeglądania dostępnych pokoi oraz dodawania nowych. Przycisk plus ukazuje okno do dodawania nowych pokoi, a odświeżenie ładuje ponownie wyniki, by pokazywały się dodane na nowo pokoje. 
 
@@ -162,6 +170,8 @@ Widok administratora został zabezpieczony hasłem przed nieporządanymi działa
   ```
 ---
 
+<div style="page-break-after: always;"></div>
+
   ## Klienci
   Ekran z listą wszystkich klientów, którzy złożyli rezerwację w hotelu.
 
@@ -170,6 +180,8 @@ Widok administratora został zabezpieczony hasłem przed nieporządanymi działa
   Można wyszukiwać ich po nazwisku, po kilku filtrach oraz sortując dowolną kolumnę rosnąco lub malejąco.
 
   <img src="zrzuty_ekranu/klienci_z_filtrami.png" alt="Klienci" width="500"/>
+
+<div style="page-break-after: always;"></div>
 
   ```mysql
   CREATE VIEW CustomerFullInfo AS
@@ -190,6 +202,8 @@ Widok administratora został zabezpieczony hasłem przed nieporządanymi działa
                    left join RegularCustomers rc on p.PersonID = rc.PersonID
                    left join BannedCustomers bc on p.PersonID = bc.PersonID;
   ```
+  
+
 Klienci nieproszeni to tacy, którzy wykonali więcej niż 2 szkody lub na ponad 1000 złotych. Na tych klientów nie można złożyć rezerwacji.
 ```mysql
 CREATE VIEW BannedCustomers AS
@@ -227,6 +241,8 @@ CREATE VIEW RegularCustomers AS
   
   <img src="zrzuty_ekranu/rezerwacje_z_filtrami.png" alt="Rezerwacje" width="500"/>
 
+<div style="page-break-after: always;"></div>
+
 ```mysql
 CREATE VIEW ReservationDetails AS
 SELECT R.ReservationID                                 AS ReservationID,
@@ -251,6 +267,8 @@ Filtry nakładano poleceniem WHERE na tym widoku.
   <img src="zrzuty_ekranu/szkody.png" alt="Szkody" width="500"/>
 
 Panel szkód działa podobnie do panelu Pokoje. Również można dodawać nowe szkody, a następnie odświeżać listę. Jednak tym razem należało wprowadzić kontrolę wprowadzanych danych.
+
+<div style="page-break-after: always;"></div>
 
 ```mysql
 CREATE PROCEDURE AddDamage(IN p_ReservationID int, IN p_Date date,
@@ -286,6 +304,8 @@ Widok klienta zawiera infomacje interesujące konkretnego klienta. Funckjonalno�
 
 <img src="zrzuty_ekranu/k_log.png" width="500">
 
+<div style="page-break-after: always;"></div>
+
 ## Logowanie do systemu
 Logowanie do systemu zostało uproszczone i odbywa się jedynie poprzez podanie prawidłowego adresu e-mail (czyli takiego, który występuje w bazie danych). Możemy również podać e-mail, którego nie ma w bazie- wtedy jesteśmy traktowani jako niezalogowani.
 
@@ -294,6 +314,9 @@ Jeżeli podamy e-mail nieistniejący w bazie, utracimy dostęp do pewnych funckj
 Jednak w zakłdace `Dane` dostaniemy możliwość utworzenia konta.
 
 <img src="zrzuty_ekranu/niezalogowany.png" width="500">
+
+
+<div style="page-break-after: always;"></div>
 
 Jest to realizowane przez funckję `AddCustomer`:
 ```sql
@@ -325,6 +348,8 @@ BEGIN
 END;
 ```
 
+<div style="page-break-after: always;"></div>
+
 ### Poprawny e-mail
 Zalogujmy się jako Tomasz Kowalczyk (tomasz.kowalczyk@example.com). Po zalogowaniu widzimy nasze dane.
 
@@ -341,6 +366,7 @@ Historia rezerwacji pozwala klientowi przeglądać swoje rezerwacje oraz zarząd
 System kontroluje, czy Klient aby na pewno podaje ID swojej Rezerwacji. Kontroluje również czy Klient nie próbuje zapłacić za rezerwację odwołaną- taka transakcja jest przerywana.
 
 Płatność obsługuje następująca procedura:
+
 
 ```sql
 CREATE PRODEDURE PayForReservation(IN v_reservationId int)
@@ -386,6 +412,8 @@ END;
 
 ---
 
+<div style="page-break-after: always;"></div>
+
 ## Nowa rezerwacja
 Możemy ustawić minimalną i maksymlną kwotę za noc jak i liczbę miejsc, która nas interesuje.
 
@@ -411,6 +439,8 @@ END;
 
 ```
 Ta procedura korzysta natomiast z procedury `IsRoomAvailable`, która szuka pokoi, które nie posiadają rezerwacji w danym terminie (mowa o nieodwołanych rezerwacjach).
+<div style="page-break-after: always;"></div>
+
 ```sql
 create function IsRoomAvailable(RoomIDParam int, StartDateParam date, EndDateParam date) 
     returns int
@@ -447,6 +477,8 @@ A na koniec widok dostępnych pokoi w danym terminie się aktualizuje:
 Możemy również zobaczyć, że nowa rezerwacja pojawiła się w bazie danych:
 
 <img src="zrzuty_ekranu/k_res.png" width="500"/>
+
+<div style="page-break-after: always;"></div>
 
 Jeżeli ktoś, jest na liście klientów nieproszonych, nie ma możliwości złożenia rezerwacji.
 
