@@ -32,6 +32,8 @@ public class ClientPersonalDataView extends ClientView{
     @FXML
     private Button addButton;
     @FXML
+    private Button refreshButton;
+    @FXML
     private ImageView picture;
 
     @Override
@@ -56,6 +58,7 @@ public class ClientPersonalDataView extends ClientView{
 
             if (resultSet.next()) {
                 addButton.setVisible(false);
+                refreshButton.setVisible(false);
                 setClientID(resultSet.getInt("PersonID"));
                 String name = resultSet.getString("Name");
                 nameLabel.setText(name);
@@ -75,6 +78,7 @@ public class ClientPersonalDataView extends ClientView{
                 }
             } else {
                 addButton.setVisible(true);
+                refreshButton.setVisible(true);
                 picture.setImage(new Image(getClass().getResource("/questionmark.png").toExternalForm()));
             }
         } catch (SQLException e) {
