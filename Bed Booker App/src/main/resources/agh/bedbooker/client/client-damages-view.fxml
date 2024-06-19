@@ -18,7 +18,7 @@
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="40.0" stroke="#89959e" strokeType="INSIDE" width="960.0" />
         <HBox alignment="CENTER_LEFT" layoutX="158.0" prefHeight="42.0" prefWidth="800.0">
             <children>
-                <Label prefHeight="36.0" prefWidth="439.0" text="ZNISZCZENIA" textFill="#f2f1ec">
+                <Label prefHeight="36.0" prefWidth="439.0" text="SZKODY" textFill="#f2f1ec">
                     <font>
                         <Font name="Century Gothic Bold" size="28.0" />
                     </font>
@@ -62,7 +62,7 @@
                         <Insets top="10.0" />
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false"  onAction="#onDamagesButtonClick" prefHeight="20.0" prefWidth="120.0" style="-fx-background-color: #f2f1ec;" text="ZNISZCZENIA" textFill="#292c35">
+                <Button mnemonicParsing="false"  onAction="#onDamagesButtonClick" prefHeight="20.0" prefWidth="120.0" style="-fx-background-color: #f2f1ec;" text="SZKODY" textFill="#292c35">
                     <font>
                         <Font name="Century Gothic" size="12.0" />
                     </font>
