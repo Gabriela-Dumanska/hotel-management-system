@@ -54,4 +54,7 @@ public class ClientView {
 
     @FXML
     public void onNewReservationButtonClick(){loadSceneWithEmail("client-new-reservation-view.fxml", email);}
+
+    @FXML
+    public void onDamagesButtonClick(){loadSceneWithEmail("client-damages-view.fxml", email);}
 }

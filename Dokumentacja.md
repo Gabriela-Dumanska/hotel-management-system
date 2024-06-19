@@ -354,4 +354,18 @@ Tym razem, bez problemu dokonjemy rezerwacji. Widok dostępnych pokoi od razu si
 <img src="zrzuty_ekranu/k_po_rez_alert.png" width="500"/>
 <img src="zrzuty_ekranu/k_po_rezerwacji.png" width="500"/>
 
+## Szkody
+Logując się przykładowo jako Andzrej Lewandowski (andrzej.lewandowski@example.com), gdy wejdziemy w zakładki `Szkody` zobaczymy wszystkie szkody spowodowane przez Andrzeja. 
 
+Korzystamy tutaj procedury `GetDamagesForPerson`:
+```sql
+create procedure GetDamagesForPerson(IN personID int)
+BEGIN
+    SELECT d.*
+    FROM Damages d
+             JOIN Reservations r ON d.reservationID = r.reservationID
+    WHERE r.personID = personID;
+END;
+```
+
+Dla osób nie mających szkód, pokazana zostanie pusta tabela.

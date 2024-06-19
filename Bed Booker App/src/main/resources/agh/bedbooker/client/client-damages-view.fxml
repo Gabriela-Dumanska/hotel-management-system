@@ -10,16 +10,15 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="agh.bedbooker.client.ClientPersonalDataView"
+            fx:controller="agh.bedbooker.client.ClientDamagesView"
             prefHeight="640.0" prefWidth="960.0"
             fx:id="rootAnchorPane">
-
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="640.0" stroke="#89959e" strokeType="INSIDE" width="159.0" />
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#89959e" height="40.0" stroke="#89959e" strokeType="INSIDE" width="960.0" />
-        <HBox alignment="CENTER_RIGHT" layoutX="158.0" prefHeight="42.0" prefWidth="800.0">
+        <HBox alignment="CENTER_LEFT" layoutX="158.0" prefHeight="42.0" prefWidth="800.0">
             <children>
-                <Label prefHeight="36.0" prefWidth="439.0" text="DANE OSOBOWE" textFill="#f2f1ec">
+                <Label prefHeight="36.0" prefWidth="439.0" text="ZNISZCZENIA" textFill="#f2f1ec">
                     <font>
                         <Font name="Century Gothic Bold" size="28.0" />
                     </font>
@@ -73,20 +72,23 @@
                 </Button>
             </children>
         </VBox>
-        <VBox alignment="TOP_LEFT" layoutY="47.0" layoutX="168">
-            <children>
-                <Label text="Email:" />
-                <Label fx:id="emailLabel"/>
-                <Label text="Imię:" />
-                <Label fx:id="nameLabel"/>
-                <Label text="Nazwisko:" />
-                <Label fx:id="surnameLabel"/>
-                <Label text="Numer telefonu:" />
-                <Label fx:id="phoneLabel"/>
-                <Label text="Ulica:" />
-                <Label fx:id="streetLabel"/>
-            </children>
-        </VBox>
+        <TableView fx:id="tableView" layoutX="158.0" layoutY="40.0" prefHeight="600.0" prefWidth="800.0">
+            <style>
+                -fx-font-family: "Arial";
+                -fx-font-size: 12px;
+                -fx-text-fill: #292c35;
+            </style>
+            <columns>
+                <TableColumn fx:id="damageID" prefWidth="110.40000915527344" text="ID Szkody" />
+                <TableColumn fx:id="reservationID" prefWidth="184.79998779296875" text="ID Rezerwacji" />
+                <TableColumn fx:id="columnDate" prefWidth="144.79998779296875" text="Data" />
+                <TableColumn fx:id="columnPrice" prefWidth="144.79998779296875" text="Wartość" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
 
     </children>
+
 </AnchorPane>

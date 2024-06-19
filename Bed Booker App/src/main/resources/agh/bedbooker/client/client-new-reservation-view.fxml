@@ -74,7 +74,7 @@
                         <Insets top="10.0" />
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false"  prefHeight="20.0" prefWidth="120.0" style="-fx-background-color: #f2f1ec;" text="ZNISZCZENIA" textFill="#292c35">
+                <Button mnemonicParsing="false" onAction="#onDamagesButtonClick" prefHeight="20.0" prefWidth="120.0" style="-fx-background-color: #f2f1ec;" text="ZNISZCZENIA" textFill="#292c35">
                     <font>
                         <Font name="Century Gothic" size="12.0" />
                     </font>
