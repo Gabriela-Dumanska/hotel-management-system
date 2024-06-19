@@ -82,7 +82,7 @@ public class ClientPersonalDataView extends ClientView{
                 addButton.setVisible(true);
                 refreshButton.setVisible(true);
                 picture.setImage(new Image(getClass().getResource("/questionmark.png").toExternalForm()));
-                AlertHandler.showAlert(Alert.AlertType.INFORMATION, "Informacja", "Zarejestruj się aby w pełni korzytsać systemu", "");
+                AlertHandler.showAlert(Alert.AlertType.INFORMATION, "Informacja", "Zarejestruj się aby w pełni korzystać systemu", "");
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -128,7 +128,6 @@ public class ClientNewReservationView extends ClientView{
             try{
                 int roomID = Integer.parseInt(roomIDString);
                 addReservation(roomID);
-                successfulReservation = true;
             } catch(NumberFormatException ex){
                 AlertHandler.showAlert(Alert.AlertType.ERROR, "Niepoprawne dane", "Upewnij się, że wpisujesz poprawny identyfikator pokoju.", "");
             }
@@ -148,12 +147,16 @@ public class ClientNewReservationView extends ClientView{
             statement.setDate(3, Date.valueOf(startDatePicker.getValue()));
             statement.setDate(4, Date.valueOf(endDatePicker.getValue()));
             statement.execute();
+            successfulReservation = true;
         } catch (SQLException e) {
             int errorCode = e.getErrorCode();
             String sqlState = e.getSQLState();
 
+            successfulReservation = false;
             if ("45000".equals(sqlState)) {
-                AlertHandler.showAlert(Alert.AlertType.ERROR, "Błąd rezerwacji", "Nie jest możliwe dokonanie rezerwacji.", "");
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Błąd rezerwacji", "Jesteś klientem nieproszonym. Nie jest możliwe dokonanie rezerwacji.", "");
+            } else if ("45001".equals(sqlState)) {
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Błąd rezerwacji", "Ten pokój został właśnie zarezerwowany przez innego klienta. Nie jest możliwe dokonanie rezerwacji.", "");
             } else {
                 AlertHandler.showAlert(Alert.AlertType.ERROR, "Błąd bazy danych", "Wystąpił błąd podczas dodawania rezerwacji", "SQL State: " + sqlState + "\nError Code: " + errorCode);
             }
