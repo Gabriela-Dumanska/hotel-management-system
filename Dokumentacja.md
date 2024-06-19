@@ -65,14 +65,14 @@ Imiona i nazwiska autorów : Gabriela Dumańska, Katarzyna Lisiecka
   - `StatusName` - nazwa statusu- rezerwacja nowa, potwierdzona i zapłacona, anulowana
   
 ---
-# Logowanie do systemu
- Widok administratora został zabezpieczony hasłem przed nieporządanymi działaniami.
-
-<img src="zrzuty_ekranu/logowanie.png" alt="Schemat bazy danych" width="500"/>
 
 # Widok administratora
-
 Dla widoku administratora zaprojektowano kluczowe funkcje dla kontrolowania pracy hotelu.
+
+  ## Logowanie do systemu
+Widok administratora został zabezpieczony hasłem przed nieporządanymi działaniami.
+
+<img src="zrzuty_ekranu/logowanie.png" alt="Schemat bazy danych" width="500"/>
 
   ## Statystyki
 
@@ -276,4 +276,82 @@ BEGIN
 
 END;
 ```
+
+# Widok klienta
+Widok klienta zawiera infomacje interesującr konkretnego klienta. Funckjonalności z wyjątkiem logowania zostaną omówione na przykładzie zalogowanego użytkownika.
+
+## Logowanie do systemu
+Logowanie do systemu zostało uproszczone i odbywa się jedynie poprzez podanie prawdiłowego adresu e-mail (czyli takiego, który występuje w bazie danych).
+
+### Niepoprawny e-mail
+<img src="zrzuty_ekranu/k_logowanie.png" width="500"/>
+
+W tym przypadku zostaniemy poinformowani, że system ma pewne ograniczenia.
+<img src="zrzuty_ekranu/k_niepoprawny_info.png" width=500>
+
+Kiedy np. spróbujemy dodać rezwerwację, system nam na to nie pozwoli:
+<img src="zrzuty_ekranu/k_nowa_niepoprawne.png" width="500"/>
+
+### Poprawny e-mail
+Zalogujmy się jako Paweł Szymański (pawel.szymanski@example.com). Po zalogowaniu widzimu nasze dane.
+<img src="zrzuty_ekranu/k_dane.png" width="500">
+
+## Dane
+Po wypełnieniu e-maila sprawdzamy, czy w tabeli `Persons` znajsuje się osoba z takim e-mailem. Jeżeli tak to wczytujemy te dane, jeżeli nie wyświtlany jest odpowiedni alert jak pokazano powyżej.
+
+## Nowa rezerwacja
+Możemy ustawić minimalną i maksymlną kwotę za noc jak i liczbę miejsc, która nas interesuje.
+Nie możemy dodać rezerwacji przed wybraniem daty początkowej i końcowej.
+
+<img src="zrzuty_ekranu/k_daty.png" width="500"/>
+
+Po wypełnieniu dat, możemy kliknąć przycisk `Szukaj`.
+
+Otrzymujemy dostępne pokoje zgodne z podanymi kryteriami. Korzystamy tutaj z procedury `AvaiableRooms`:
+```sql
+create procedure AvailableRooms(IN StartDate date, IN EndDate date, IN NumberOfPlaces int,
+                                                      IN MinPrice int, IN MaxPrice int)
+BEGIN
+    SELECT r.RoomID, r.NumberOfPlaces, r.Price
+    FROM Rooms r
+    WHERE r.NumberOfPlaces = NumberOfPlaces
+        AND r.Price BETWEEN MinPrice AND MaxPrice
+        AND IsRoomAvailable(r.RoomID, StartDate, EndDate) = 1;
+END;
+
+```
+Ta procedura korzysta natomiast z procedury `IsRoomAvailable`, która szuka pokoi, które nie posiadają rezerwacji w danym terminie (mowa o nieodwołanych rezerwacjach).
+```sql
+create function IsRoomAvailable(RoomIDParam int, StartDateParam date, EndDateParam date) returns int
+BEGIN
+    DECLARE RoomCount INT;
+            
+SELECT COUNT(*) INTO RoomCount
+FROM Reservations
+WHERE RoomID = RoomIDParam
+  AND StartDate <= EndDateParam
+  AND EndDate >= StartDateParam
+  AND StatusID <> 4;
+
+IF RoomCount > 0 THEN
+        RETURN 0;
+ELSE
+        RETURN 1;
+END IF;
+END;
+```
+
+Możemy teraz dodać nową rezerwację. Zostaniemy poproszeni o interesujący nas pokój:
+<img src="zrzuty_ekranu/k_proba_rez.png" width="500"/>
+
+Wybierzmy pokój 25. W tym przypadku, nie udało się dodać rezerwacji, ponieważ Paweł znajduje się na liście nieproszonych gości.
+<img src="zrzuty_ekranu/k_alert_nieudana.png" width="500"/>
+
+Zalogujmy się ponownie, tym razem jako Michał Mazur (michal.mazur@example.com).
+
+Tym razem, bez problemu dokonjemy rezerwacji. Widok dostępnych pokoi od razu się odświeża.
+<img src="zrzuty_ekranu/k_rezerwacja.png" width="500"/>
+<img src="zrzuty_ekranu/k_po_rez_alert.png" width="500"/>
+<img src="zrzuty_ekranu/k_po_rezerwacji.png" width="500"/>
+
 

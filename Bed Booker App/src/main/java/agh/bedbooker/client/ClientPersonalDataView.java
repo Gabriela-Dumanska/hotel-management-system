@@ -1,7 +1,9 @@
 package agh.bedbooker.client;
 
+import agh.bedbooker.AlertHandler;
 import agh.bedbooker.DatabaseConnectionManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
 import java.sql.*;
@@ -49,6 +51,7 @@ public class ClientPersonalDataView extends ClientView{
                 surnameLabel.setText("-");
                 streetLabel.setText("-");
                 phoneLabel.setText("-");
+                AlertHandler.showAlert(Alert.AlertType.INFORMATION, "Informacja", "Zaloguj się aby w pełni korzytsać systemu", "");
             }
         } catch (SQLException e) {
             e.printStackTrace();

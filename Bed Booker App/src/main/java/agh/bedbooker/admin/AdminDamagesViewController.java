@@ -1,5 +1,6 @@
 package agh.bedbooker.admin;
 
+import agh.bedbooker.AlertHandler;
 import agh.bedbooker.DatabaseConnectionManager;
 import agh.bedbooker.database.Damage;
 import javafx.collections.FXCollections;
@@ -135,20 +136,12 @@ public class AdminDamagesViewController extends AdminView {
             String sqlState = e.getSQLState();
 
             if ("45000".equals(sqlState)) {
-                showAlert(Alert.AlertType.ERROR, "Błąd rezerwacji", "Nie istnieje rezerwacja o podanym ID", "");
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Błąd rezerwacji", "Nie istnieje rezerwacja o podanym ID", "");
             } else if ("45001".equals(sqlState)) {
-                showAlert(Alert.AlertType.ERROR, "Błąd daty", "Data szkody musi być pomiędzy początkiem i końcem pobytu", "");
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Błąd daty", "Data szkody musi być pomiędzy początkiem i końcem pobytu", "");
             } else {
-                showAlert(Alert.AlertType.ERROR, "Błąd bazy danych", "Wystąpił błąd podczas dodawania szkody", "SQL State: " + sqlState + "\nError Code: " + errorCode);
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Błąd bazy danych", "Wystąpił błąd podczas dodawania szkody", "SQL State: " + sqlState + "\nError Code: " + errorCode);
             }
         }
-    }
-
-    private void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
-        alert.showAndWait();
     }
 }

@@ -1,5 +1,6 @@
 package agh.bedbooker.client;
 
+import agh.bedbooker.AlertHandler;
 import agh.bedbooker.DatabaseConnectionManager;
 import agh.bedbooker.database.Room;
 import javafx.collections.FXCollections;
@@ -53,9 +54,9 @@ public class ClientNewReservationView extends ClientView{
         int max = maxSpinner.getValue();
 
         if(startDate == null || endDate == null){
-            showAlert(Alert.AlertType.ERROR, "Błędna data", "Data początkowa i końcowa nie może być pusta.", "");
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Błędna data", "Data początkowa i końcowa nie może być pusta.", "");
         }else if(startDate.isAfter(endDate)) {
-            showAlert(Alert.AlertType.ERROR, "Błędna data", "Data początkowa musi być mniejsza od końcowej.", "");
+            AlertHandler.showAlert(Alert.AlertType.ERROR, "Błędna data", "Data początkowa musi być mniejsza od końcowej.", "");
         }else{
             loadFromDatabase(Date.valueOf(startDate), Date.valueOf(endDate), numberOfPlaces, min, max);
         }
@@ -64,25 +65,18 @@ public class ClientNewReservationView extends ClientView{
     @FXML
     public void onAddButtonClick() {
         if(getClientID() == -1){
-            showAlert(Alert.AlertType.WARNING, "Logowanie", "Tylko zalogowani użytkownicy mogą dodawać rezerwacje.", "");
+            AlertHandler.showAlert(Alert.AlertType.WARNING, "Logowanie", "Tylko zalogowani użytkownicy mogą dodawać rezerwacje.", "");
         }else{
             onSearchButtonClick();
             if(!rooms.isEmpty()){
                 showAddReservationDialog();
                 if(successfulReservation){
+                    AlertHandler.showAlert(Alert.AlertType.INFORMATION, "Sukces", "Rezerwacja dokonana pomyślnie.", "");
                     onSearchButtonClick();
                     successfulReservation = false;
                 }
             }
         }
-    }
-
-    private void showAlert(Alert.AlertType type, String title, String headerText, String contentText) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(headerText);
-        alert.setContentText(contentText);
-        alert.showAndWait();
     }
 
     private void loadFromDatabase(Date startDate, Date endDate, int numberOfPlaces, int min, int max){
@@ -136,7 +130,7 @@ public class ClientNewReservationView extends ClientView{
                 addReservation(roomID);
                 successfulReservation = true;
             } catch(NumberFormatException ex){
-                showAlert(Alert.AlertType.ERROR, "Niepoprawne dane", "Upewnij się, że wpisujesz poprawny identyfikator pokoju.", "");
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Niepoprawne dane", "Upewnij się, że wpisujesz poprawny identyfikator pokoju.", "");
             }
         });
 
@@ -159,9 +153,9 @@ public class ClientNewReservationView extends ClientView{
             String sqlState = e.getSQLState();
 
             if ("45000".equals(sqlState)) {
-                showAlert(Alert.AlertType.ERROR, "Błąd rezerwacji", "Nie jest możliwe dokonanie rezerwacji.", "");
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Błąd rezerwacji", "Nie jest możliwe dokonanie rezerwacji.", "");
             } else {
-                showAlert(Alert.AlertType.ERROR, "Błąd bazy danych", "Wystąpił błąd podczas dodawania rezerwacji", "SQL State: " + sqlState + "\nError Code: " + errorCode);
+                AlertHandler.showAlert(Alert.AlertType.ERROR, "Błąd bazy danych", "Wystąpił błąd podczas dodawania rezerwacji", "SQL State: " + sqlState + "\nError Code: " + errorCode);
             }
         }
     }
