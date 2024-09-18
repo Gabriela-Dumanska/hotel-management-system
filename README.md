@@ -11,7 +11,7 @@ BedBooker is a hotel management tool designed to facilitate the management of ho
 
 ## Key features
 - **CRUD Operations**: The app supports all CRUD operations for managing hotel data.
-- **Admin View**: Admins can manage hotel operations, including room availability, guest profiles, reservations, and staff. They can also analyze sales data and generate reports.
+- **Admin View**: Admins can manage hotel operations, including room availability, guest profiles, reservations, and damages. They can also analyze sales data.
 - **Client View**: Clients can browse available rooms, make reservations, and view their booking history and much more.
 
 
