@@ -15,7 +15,7 @@ BedBooker is a hotel management tool designed to facilitate the management of ho
 - **Client View**: Clients can browse available rooms, make reservations, and view their booking history and much more.
 
 
-For more detailed information and app preview, please refer to the PDF file attached here: [PDF information file](Dumanska_Lisiecka.pdf).
+For more detailed information and app preview, please refer to the PDF file attached here: [Project documentation](Dumanska_Lisiecka.pdf).
 
 ---
 
