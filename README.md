@@ -2,33 +2,19 @@
 
 ## Overview
 
-BedBooker is a hotel management tool designed to facilitate the management of hotel reservations using MySQL and Java.
+BedBooker is a hotel management tool designed to facilitate the management of hotel reservations using MySQL and Java. This application was developed as part of the Data Bases course at AGH University.
 
 ## Authors
 
 - Gabriela Dumańska - dumanska@student.agh.edu.pl
 - Katarzyna Lisiecka - klisiecka@student.agh.edu.pl
 
-## Administrator View
+## Key features
+- CRUD Operations: The app supports all CRUD operations (Create, Read, Update, Delete) for managing hotel data.
+- Admin View: Admins can manage hotel operations, including room availability, guest profiles, reservations, and staff. They can also analyze sales data and generate reports.
+- Client View: Clients can browse available rooms, make reservations, and view their booking history and much more.
 
-### Key Features
-
-1. **Login**: Secure access to the admin panel.
-2. **Statistics**: Overview of hotel status including earnings, room occupancy, and damages.
-3. **Rooms Management**: View and add rooms.
-4. **Clients Management**: View and filter clients, add new clients.
-5. **Reservations Management**: View, filter, and manage reservations.
-6. **Damages Management**: View and add damages with data validation.
-
-## Client View
-
-### Key Features
-
-1. **Login**: Login using an email present in the database. Unregistered users can register through the system.
-2. **Profile Data**: View and update personal information.
-3. **Reservation History**: View and manage past reservations including payments and cancellations.
-4. **New Reservations**: Search and book available rooms.
-5. **Damages**: View damages associated with their reservations.
+For more detailed information, please refer to the PDF file attached here: [PDF information file](Dumanska_Lisiecka.pdf).
 
 ---
 
